@@ -62,26 +62,26 @@ fun Vista1(onNavigate: () -> Unit) {
                     contentColor = Color.White
                 )
             ) {
-                Text(text = "Mostrar animación")
+                Text(text = "Mostrar animacion")
             }
-        }
-
-        // Botón para pasar a la siguiente animación
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            Button(
-                onClick = onNavigate,
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Black,
-                    contentColor = Color.White
-                )
+            //boton para pasar a la siguiente animacion
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.BottomEnd
             ) {
-                Text(text = "Siguiente")
+                Button(
+                    onClick = onNavigate,
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Black,
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(text = "Siguiente")
+                }
             }
+
         }
 
         // Cuadro con AnimatedVisibility
@@ -91,15 +91,24 @@ fun Vista1(onNavigate: () -> Unit) {
             exit = fadeOut(animationSpec = tween(durationMillis = 1000))
         ) {
             Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .background(Color.Red)
-                    .align(Alignment.Center)
-            )
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                AnimatedVisibility(
+                    visible = isVisible,
+                    enter = fadeIn(animationSpec = tween(durationMillis = 1000)),
+                    exit = fadeOut(animationSpec = tween(durationMillis = 1000))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .background(Color.Red)
+                    )
+                }
+            }
         }
     }
 }
-
 @Composable
 fun Vista2(onNavigate: () -> Unit) {
     var isBlue by remember { mutableStateOf(true) }
