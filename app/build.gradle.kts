@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.laboratorio13"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.laboratorio13"
@@ -50,6 +50,11 @@ android {
 }
 
 dependencies {
+
+    implementation("androidx.compose.ui:ui:1.5.2")
+    implementation("androidx.compose.material:material:1.5.2")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.2")
+    implementation("androidx.activity:activity-compose:1.7.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
