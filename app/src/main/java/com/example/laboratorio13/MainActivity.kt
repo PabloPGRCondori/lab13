@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -37,9 +38,11 @@ fun lab13() {
 
     when (currentView) {
         "vista1" -> Vista1 { currentView = "vista2" }
-        "vista2" -> Vista2 { currentView = "" }
+        "vista2" -> Vista2 { currentView = "vista3" }
+        "vista3" -> Vista3 { currentView = "vista1" }
     }
 }
+
 @Composable
 fun Vista1(onNavigate: () -> Unit) {
     var isVisible by remember { mutableStateOf(false) }
@@ -59,26 +62,26 @@ fun Vista1(onNavigate: () -> Unit) {
                     contentColor = Color.White
                 )
             ) {
-                Text(text = "Mostrar animacion")
+                Text(text = "Mostrar animación")
             }
-            //boton para pasar a la siguiente animacion
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                contentAlignment = Alignment.BottomEnd
-            ) {
-                Button(
-                    onClick = onNavigate,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Black,
-                        contentColor = Color.White
-                    )
-                ) {
-                    Text(text = "Siguiente")
-                }
-            }
+        }
 
+        // Botón para pasar a la siguiente animación
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            Button(
+                onClick = onNavigate,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Black,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(text = "Siguiente")
+            }
         }
 
         // Cuadro con AnimatedVisibility
@@ -88,24 +91,15 @@ fun Vista1(onNavigate: () -> Unit) {
             exit = fadeOut(animationSpec = tween(durationMillis = 1000))
         ) {
             Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                AnimatedVisibility(
-                    visible = isVisible,
-                    enter = fadeIn(animationSpec = tween(durationMillis = 1000)),
-                    exit = fadeOut(animationSpec = tween(durationMillis = 1000))
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(100.dp)
-                            .background(Color.Red)
-                    )
-                }
-            }
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(Color.Red)
+                    .align(Alignment.Center)
+            )
         }
     }
 }
+
 @Composable
 fun Vista2(onNavigate: () -> Unit) {
     var isBlue by remember { mutableStateOf(true) }
@@ -136,7 +130,85 @@ fun Vista2(onNavigate: () -> Unit) {
             ) {
                 Text(text = "Cambiar Color")
             }
+        }
 
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            Button(
+                onClick = onNavigate,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Black,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(text = "Siguiente")
+            }
+        }
+    }
+}
+
+@Composable
+fun Vista3(onNavigate: () -> Unit) {
+    var isExpanded by remember { mutableStateOf(false) }
+
+    // Animación de tamaño y posición
+    val size by animateDpAsState(
+        targetValue = if (isExpanded) 200.dp else 100.dp,
+        animationSpec = tween(durationMillis = 1000)
+    )
+    val offset by animateDpAsState(
+        targetValue = if (isExpanded) 50.dp else 0.dp,
+        animationSpec = tween(durationMillis = 1000)
+    )
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Botón para cambiar el tamaño y la posición del cuadro
+            Button(
+                onClick = { isExpanded = !isExpanded },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Black,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(text = "Mover y Cambiar Tamaño")
+            }
+        }
+
+        // Cuadro animado
+        Box(
+            modifier = Modifier
+                .offset(x = offset, y = offset)
+                .size(size)
+                .background(Color.Magenta)
+                .align(Alignment.Center)
+        )
+
+        // Botón para volver a la primera vista
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            Button(
+                onClick = onNavigate,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Black,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(text = "Regresar al inicio")
+            }
         }
     }
 }
