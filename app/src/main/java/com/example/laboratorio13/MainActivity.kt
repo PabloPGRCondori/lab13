@@ -56,7 +56,7 @@ fun Vista1(onNavigate: () -> Unit) {
                     contentColor = Color.White //
                 )
             ) {
-                Text(text = "Mi Botón Personalizado")
+                Text(text = "Mostrar animacion")
             }
 
         }
